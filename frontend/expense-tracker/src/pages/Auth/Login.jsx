@@ -1,14 +1,19 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import AuthLayout from '../../components/Layouts/AuthLayout';
 import { Link, useNavigate } from "react-router-dom";
 import Inputs from '../../components/Inputs/Inputs';
 import { validateEmail, validatePassword } from '../../utils/helper';
+import axiosInstance from '../../utils/axiosInstace';
+import { API_PATHS } from '../../utils/apiPath';
+import { UserContext } from '../../context/UserContext';
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  const { updateUser } = useContext(UserContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -23,6 +28,29 @@ const Login = () => {
       return;
     }
     setError("");
+
+    //Login API Call
+
+    try {
+      const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {
+        email,
+        password,
+      });
+      const { token, user } = response.data;
+
+      if (token) {
+        localStorage.setItem("token", token);
+        updateUser(user);
+        navigate("/dashboard")
+      }
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError('Something went wrong. Please try again');
+      }
+    }
+
   }
 
   return (
@@ -55,7 +83,7 @@ const Login = () => {
           <button type='submit' className='btn-primary'>LOGIN</button>
 
           <p className='text-[13px] text-slate-800 mt-3'>Don't have an account?{" "}
-            <Link className='font-medium text-primary underline' to="/signup" SignUp>SignUp</Link>
+            <Link className='font-medium text-primary underline' to="/signup">SignUp</Link>
           </p>
         </form>
 
