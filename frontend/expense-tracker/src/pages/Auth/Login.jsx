@@ -1,6 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import AuthLayout from '../../components/Layouts/AuthLayout';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, replace, useNavigate } from "react-router-dom";
 import Inputs from '../../components/Inputs/Inputs';
 import { validateEmail, validatePassword } from '../../utils/helper';
 import axiosInstance from '../../utils/axiosInstace';
@@ -41,7 +41,7 @@ const Login = () => {
       if (token) {
         localStorage.setItem("token", token);
         updateUser(user);
-        navigate("/dashboard")
+        navigate("/dashboard", { replace: true })
       }
     } catch (error) {
       if (error.response && error.response.data.message) {

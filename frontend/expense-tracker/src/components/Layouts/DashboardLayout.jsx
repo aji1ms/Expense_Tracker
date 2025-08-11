@@ -7,9 +7,7 @@ const DashboardLayout = ({ children, activeMenu }) => {
     const user = useContext(UserContext);
     return (
         <div className=''>
-            <Navbar
-                ar activeMenu={activeMenu} />
-
+            <Navbar activeMenu={activeMenu} />
             {user && (
                 <div className='flex'>
                     <div className='max-[1080px]:hidden'>
