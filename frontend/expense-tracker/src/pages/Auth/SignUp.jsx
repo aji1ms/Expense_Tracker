@@ -91,14 +91,14 @@ const SignUp = () => {
               placeholder="John"
               type="text"
             />
-            <Inputs
-              onChange={({ target }) => setEmail(target.value)}
-              value={email}
-              type="text"
-              label="Email Address"
-              placeholder='john123@gmail.com'
-            />
             <div className='col-span-2'>
+              <Inputs
+                onChange={({ target }) => setEmail(target.value)}
+                value={email}
+                type="text"
+                label="Email Address"
+                placeholder='john123@gmail.com'
+              />
               <Inputs
                 onChange={({ target }) => setPassword(target.value)}
                 value={password}
